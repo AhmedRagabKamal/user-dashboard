@@ -16,3 +16,7 @@ export function getUsers(page, perPage) {
       })
     );
 }
+
+export function createUser(user) {
+  return http.post(Endpoints.CREATE_USER, user);
+}
