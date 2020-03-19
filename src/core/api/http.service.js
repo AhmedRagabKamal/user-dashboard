@@ -5,7 +5,10 @@ import { toast } from 'react-toastify';
 
 const http = axios.create({
   baseURL: config.apiUrl,
-  timeout: 10000
+  timeout: 10000,
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
 });
 
 export function overWriteAxiosConfigurations(baseUrl = '', timeout = 10000) {

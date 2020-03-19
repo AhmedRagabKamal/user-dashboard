@@ -7,11 +7,6 @@ import { toast } from 'react-toastify';
 import addUserModel from '../models/addUser.model';
 
 const AddUser = () => {
-  const doSubmit = async data => {
-    const { streetAddress, pinLocation, ...rest } = data;
-    await createUser({ ...rest, address: { streetAddress, pinLocation } });
-    toast.success('User added successfully');
-  };
   const schema = {
     firstName: Joi.string()
       .required()
@@ -45,6 +40,26 @@ const AddUser = () => {
       .label('Avatar'),
     address: Joi.optional()
   };
+
+  const doSubmit = async data => {
+    const { streetAddress, pinLocation, ...rest } = data;
+    const form = { ...rest, address: { streetAddress, pinLocation } };
+
+    let formData = new FormData();
+    for (let item in form) {
+      if (item === 'address') {
+        formData.append([item], JSON.stringify(form[item]));
+      } else {
+        formData.append([item], form[item]);
+      }
+    }
+    for (let val of formData.entries()) {
+      console.log(val[0] + ', ' + val[1]);
+    }
+    await createUser(formData);
+    toast.success('User added successfully');
+  };
+
   return (
     <BaseForm
       Model={CreateUserModel}
