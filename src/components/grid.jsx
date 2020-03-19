@@ -49,7 +49,11 @@ const Grid = ({ columns, apiService, paginate = true }) => {
 
   return (
     <Fragment>
-      <BaseTable columns={columns} data={state.data.data} />
+      <BaseTable
+        loading={state.loading}
+        columns={columns}
+        data={state.data.data}
+      />
       {paginate && (
         <BasePagination
           activePage={state.data.page}

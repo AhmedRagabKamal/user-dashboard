@@ -31,7 +31,7 @@ export function handleNotFoundError(handleError) {
   http.interceptors.response.use(
     response => response,
     error => {
-      if (error.status === 404) {
+      if (error && error.status === 404) {
         handleError(error);
       }
       return Promise.reject(error);

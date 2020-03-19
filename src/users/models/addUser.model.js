@@ -53,7 +53,8 @@ export default {
       type: 'file',
       name: 'avatar',
       label: 'Avatar',
-      placeholder: 'Please enter avatar'
+      placeholder: 'Please enter avatar',
+      accept: 'image/*'
     }
   ],
   action: {
