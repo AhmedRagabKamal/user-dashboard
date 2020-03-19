@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Image, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { getUsers } from '../../core/users/services/users.service';
@@ -17,7 +17,7 @@ const ListUsers = () => {
   ];
 
   return (
-    <>
+    <Fragment>
       <div className='flex space-between'>
         <h1>Users</h1>
         <Button
@@ -33,7 +33,7 @@ const ListUsers = () => {
         </Button>
       </div>
       <Grid columns={columns} apiService={getUsers} />
-    </>
+    </Fragment>
   );
 };
 

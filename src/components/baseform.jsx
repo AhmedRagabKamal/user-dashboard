@@ -27,13 +27,13 @@ const BaseForm = ({ Model, schema: formSchema, doSubmit, formModel }) => {
   const validateProperty = ({ name, value }) => {
     const obj = { [name]: value };
     const schema = { [name]: formSchema[name] };
-    const { error } = Joi.validate(obj, schema, { abortEarly: false });
+    const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
   };
 
   const handleChange = ({ currentTarget: input }) => {
     const { data, errors } = state;
-    data[input.name] = input.value;
+    data[input.name] = input.type === 'file' ? input.files[0] : input.value;
     const errorMessage = validateProperty(input);
     errors[input.name] = errorMessage;
     dispatch({ type: 'handleChange', data, errors });
@@ -65,7 +65,7 @@ const BaseForm = ({ Model, schema: formSchema, doSubmit, formModel }) => {
           <Form.Group key={name} widths={2}>
             <BaseInput
               {...attr}
-              value={state.data[name]}
+              value={attr.type === 'file' ? undefined : state.data[name]}
               name={name}
               onChange={handleChange}
               error={state.errors[name]}
@@ -76,7 +76,7 @@ const BaseForm = ({ Model, schema: formSchema, doSubmit, formModel }) => {
           label={action.label}
           type={action.type}
           loading={state.loading}
-          disabled={Boolean(validate())}
+          disabled={Boolean(validate()) || !state.data.avatar}
         />
       </Form>
     </div>

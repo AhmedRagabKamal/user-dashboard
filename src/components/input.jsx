@@ -11,16 +11,6 @@ const BaseInput = ({ name, label, error, placeholder, ...rest }) => {
       placeholder={placeholder}
       error={error}
     />
-    // <Form.Field>
-    //   <label htmlFor={name}>{label}</label>
-    //   <Input
-    //     {...rest}
-    //     name={name}
-    //     id={name}
-    //     placeholder={placeholder}
-    //     error='error'
-    //   />
-    // </Form.Field>
   );
 };
 

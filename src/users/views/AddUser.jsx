@@ -40,7 +40,7 @@ const AddUser = () => {
     pinLocation: Joi.string()
       .required()
       .label('Pin location'),
-    avatar: Joi.string()
+    avatar: Joi.any()
       .required()
       .label('Avatar'),
     address: Joi.optional()

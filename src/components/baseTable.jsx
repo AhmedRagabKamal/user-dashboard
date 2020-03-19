@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+import { Table, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import TableHeader from './tableHeader';
 import TableBody from './tableBody.jsx';
 
