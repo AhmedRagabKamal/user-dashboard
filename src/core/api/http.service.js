@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { apiUrl } from '../config';
+import config from '../config';
 
 const http = axios.create({
-  baseURL: apiUrl,
+  baseURL: config.apiUrl,
   timeout: 10000
 });
 
