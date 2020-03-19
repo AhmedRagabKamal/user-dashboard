@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Redirect } from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { handleNotFoundError } from './core/api/http.service';
+
 import 'semantic-ui-css/semantic.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
+
+handleNotFoundError(() => <Redirect to='/404' />);
 
 ReactDOM.render(
   <BrowserRouter>
