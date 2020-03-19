@@ -9,6 +9,8 @@ export class CreateUserModel {
     this.job = get(user, 'job', '');
     this.password = get(user, 'password', '');
     this.confirmPassword = get(user, 'confirmPassword', '');
+    this.streetAddress = get(user, 'streetAddress', '');
+    this.pinLocation = get(user, 'pinLocation', '');
     this.address = {
       streetAddress: get(user, 'streetAddress', ''),
       pinLocation: get(user, 'pinLocation', '')

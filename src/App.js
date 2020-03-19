@@ -1,10 +1,10 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
-import './App.css';
-import ListUsers from './users/views/ListUsers';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import ListUsers from './users/views/ListUsers';
 import NotFound from './static-pages/NotFound';
 import AddUser from './users/views/AddUser';
+import './App.css';
 
 function App() {
   return (
