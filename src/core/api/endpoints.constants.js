@@ -1,3 +1,3 @@
 export default {
-  FETCH_USERS: '/users'
+  FETCH_USERS: page => `/users?page=${page}`
 };
