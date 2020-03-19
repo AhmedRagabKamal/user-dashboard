@@ -6,15 +6,17 @@ import NotFound from './static-pages/NotFound';
 
 function App() {
   return (
-    <div>
-      <Switch>
-        <Route path='/users' component={ListUsers} />
-        <Route path='/users/create' component={ListUsers} />
-        <Route path='/404' component={NotFound} />
-        <Redirect exact from='/' to='/users' />
-        <Redirect to='/404' />
-      </Switch>
-    </div>
+    <>
+      <main>
+        <Switch>
+          <Route path='/users' component={ListUsers} />
+          <Route path='/users/create' component={ListUsers} />
+          <Route path='/404' component={NotFound} />
+          <Redirect exact from='/' to='/users' />
+          <Redirect to='/404' />
+        </Switch>
+      </main>
+    </>
   );
 }
 

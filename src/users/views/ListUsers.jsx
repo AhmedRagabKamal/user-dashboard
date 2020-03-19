@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from 'semantic-ui-react';
 import { getUsers } from '../../core/users/services/users.service';
 
 const ListUsers = () => {
@@ -12,7 +13,12 @@ const ListUsers = () => {
 
     fetchUsers();
   }, []);
-  return <div>{JSON.stringify(users)}</div>;
+  return (
+    <div>
+      <Button primary>Primary</Button>
+      <Button secondary>Secondary</Button>
+    </div>
+  );
 };
 
 export default ListUsers;
