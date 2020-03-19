@@ -1,4 +1,5 @@
 export default {
+  header: 'Creat user',
   attributes: [
     {
       type: 'text',
@@ -54,5 +55,9 @@ export default {
       label: 'Avatar',
       placeholder: 'Please enter avatar'
     }
-  ]
+  ],
+  action: {
+    type: 'submit',
+    label: 'Add user'
+  }
 };

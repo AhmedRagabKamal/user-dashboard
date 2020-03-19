@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 
-const BaseButton = ({ label, type, ...rest }) => {
+const BaseButton = ({ label = 'Submit', type, ...rest }) => {
   return (
     <Button {...rest} type={type}>
       {label}

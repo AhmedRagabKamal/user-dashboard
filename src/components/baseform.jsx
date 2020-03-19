@@ -1,74 +1,86 @@
-import React, { Component } from 'react';
+import React, { useReducer } from 'react';
 import Joi from 'joi-browser';
+import { Form } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
+import { formDataReducer } from '../reducers/formDataReducer';
 import BaseInput from './input';
 import BaseButton from './button';
 
-class BaseForm extends Component {
-  state = {
-    data: {},
+const BaseForm = ({ Model, schema: formSchema, doSubmit, formModel }) => {
+  const initialState = {
+    data: new Model(),
+    loading: false,
     errors: {}
   };
-
-  validate = () => {
-    const { error } = Joi.validate(this.state.data, this.schema, {
+  const { attributes, action, header } = formModel;
+  const [state, dispatch] = useReducer(formDataReducer, initialState);
+  const validate = () => {
+    const { error } = Joi.validate(state.data, formSchema, {
       abortEarly: false
     });
-
     if (!error) return null;
-
     return error.details.reduce((acc, item) => {
       acc[item.path[0]] = item.message;
       return acc;
     }, {});
   };
-
-  validateProperty = ({ name, value }) => {
+  const validateProperty = ({ name, value }) => {
     const obj = { [name]: value };
-    const schema = { [name]: this.schema[name] };
+    const schema = { [name]: formSchema[name] };
     const { error } = Joi.validate(obj, schema, { abortEarly: false });
     return error ? error.details[0].message : null;
   };
 
-  handleChange = ({ currentTarget: input }) => {
-    const { data, errors } = { ...this.state };
+  const handleChange = ({ currentTarget: input }) => {
+    const { data, errors } = state;
     data[input.name] = input.value;
-    const errorMessage = this.validateProperty(input);
+    const errorMessage = validateProperty(input);
     errors[input.name] = errorMessage;
-    this.setState({ data, errors });
+    dispatch({ type: 'handleChange', data, errors });
   };
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return;
-    this.doSubmit();
+    const errors = validate() || {};
+    dispatch({ type: 'formInvalid', errors });
+    if (Object.keys(errors).length) return;
+    dispatch({ type: 'post' });
+    try {
+      doSubmit(state.data);
+      dispatch({ type: 'reset', data: new Model() });
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      dispatch({ type: 'stopLoading' });
+    }
   };
 
-  renderButton(label = 'Submit', type = 'submit', loading = false) {
-    return (
-      <BaseButton
-        disabled={Boolean(this.validate())}
-        label={label}
-        type={type}
-        loading={loading}
-      />
-    );
-  }
+  if (!state && !state.data) return null;
 
-  renderInput(name, label, type = 'text') {
-    const { data, errors } = this.state;
-    return (
-      <BaseInput
-        type={type}
-        value={data[name]}
-        label={label}
-        name={name}
-        onChange={this.handleChange}
-        error={errors[name]}
-      />
-    );
-  }
-}
+  return (
+    <div>
+      <h1>{header}</h1>
+      <Form onSubmit={handleSubmit}>
+        {attributes.map(({ name, ...attr }) => (
+          <Form.Group key={name} widths={2}>
+            <BaseInput
+              {...attr}
+              value={state.data[name]}
+              name={name}
+              onChange={handleChange}
+              error={state.errors[name]}
+            />
+          </Form.Group>
+        ))}
+        <BaseButton
+          label={action.label}
+          type={action.type}
+          loading={state.loading}
+          disabled={Boolean(validate())}
+        />
+      </Form>
+    </div>
+  );
+};
 
 export default BaseForm;

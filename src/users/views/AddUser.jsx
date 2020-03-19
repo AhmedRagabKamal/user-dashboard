@@ -2,18 +2,17 @@ import React from 'react';
 import Joi from 'joi-browser';
 import BaseForm from '../../components/baseform';
 import { CreateUserModel } from '../../core/users/models/CreateUserModel';
-import { Form } from 'semantic-ui-react';
 import { createUser } from '../../core/users/services/users.service';
 import { toast } from 'react-toastify';
+import addUserModel from '../models/addUser.model';
 
-class AddUser extends BaseForm {
-  state = {
-    data: new CreateUserModel(),
-    errors: {},
-    loading: false
+const AddUser = () => {
+  const doSubmit = async data => {
+    const { streetAddress, pinLocation, ...rest } = data;
+    await createUser({ ...rest, address: { streetAddress, pinLocation } });
+    toast.success('User added successfully');
   };
-
-  schema = {
+  const schema = {
     firstName: Joi.string()
       .required()
       .label('First name'),
@@ -46,55 +45,14 @@ class AddUser extends BaseForm {
       .label('Avatar'),
     address: Joi.optional()
   };
-
-  doSubmit = async () => {
-    try {
-      this.setState({ loading: true });
-      const { streetAddress, pinLocation, ...rest } = this.state.data;
-      await createUser({ ...rest, address: { streetAddress, pinLocation } });
-      toast.success('User added successfully');
-      this.setState({ data: new CreateUserModel() });
-    } catch (error) {
-      toast.error(error);
-    } finally {
-      this.setState({ loading: false });
-    }
-  };
-
-  render() {
-    const { loading } = this.state;
-    return (
-      <div>
-        <h1>Create user</h1>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group widths='equal'>
-            {this.renderInput('firstName', 'First name')}
-            {this.renderInput('lastName', 'Last name')}
-          </Form.Group>
-          <Form.Group widths='equal'>
-            {this.renderInput('email', 'Email', 'email')}
-            {this.renderInput('job', 'Job')}
-          </Form.Group>
-          <Form.Group widths='equal'>
-            {this.renderInput('streetAddress', 'Street address')}
-            {this.renderInput('pinLocation', 'Pin location')}
-          </Form.Group>
-          <Form.Group widths='equal'>
-            {this.renderInput('password', 'Password', 'password')}
-            {this.renderInput(
-              'confirmPassword',
-              'Confirm password',
-              'password'
-            )}
-          </Form.Group>
-          <Form.Group width={1}>
-            {this.renderInput('avatar', 'Avatar', 'file')}
-          </Form.Group>
-          {this.renderButton('Add user', 'submit', loading)}
-        </Form>
-      </div>
-    );
-  }
-}
+  return (
+    <BaseForm
+      Model={CreateUserModel}
+      schema={schema}
+      doSubmit={doSubmit}
+      formModel={addUserModel}
+    />
+  );
+};
 
 export default AddUser;
