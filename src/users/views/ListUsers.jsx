@@ -6,6 +6,7 @@ import { Image, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { usersReducer } from './../reducers/usersReducer';
 import { toast } from 'react-toastify';
+
 const initialState = {
   data: {
     users: [],
