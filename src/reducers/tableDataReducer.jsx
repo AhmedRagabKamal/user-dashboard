@@ -1,4 +1,4 @@
-export function usersReducer(state, action) {
+export function tableDataReducer(state, action) {
   switch (action.type) {
     case 'fetch':
       return {
