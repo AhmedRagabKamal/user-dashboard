@@ -1,1 +1,3 @@
-export default {};
+export default {
+  FETCH_USERS: '/users'
+};
